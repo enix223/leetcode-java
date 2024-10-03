@@ -42,11 +42,4 @@ public interface IntHeap {
    * @return true if empty, false otherwise
    */
   boolean isEmpty();
-
-  /**
-   * Check if the heap is full or not (the size reach the max capacity)
-   *
-   * @return true if full, false otherwise, if cap = 0, then return false always
-   */
-  boolean isFull();
 }

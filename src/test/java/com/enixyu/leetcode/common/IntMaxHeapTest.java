@@ -9,7 +9,8 @@ public class IntMaxHeapTest {
   public void itShouldCreateHeapSuccess() {
     IntHeap heap = new IntMaxHeap(10);
     assertTrue(heap.isEmpty());
-    assertFalse(heap.isFull());
+    assertEquals(0, heap.size());
+    assertEquals(10, heap.cap());
   }
 
   @Test
@@ -37,6 +38,18 @@ public class IntMaxHeapTest {
     assertEquals(1, heap.remove());
 
     heap = new IntMaxHeap(10);
+    heap.add(5);
+    heap.add(4);
+    heap.add(3);
+    heap.add(2);
+    heap.add(1);
+    assertEquals(5, heap.remove());
+    assertEquals(4, heap.remove());
+    assertEquals(3, heap.remove());
+    assertEquals(2, heap.remove());
+    assertEquals(1, heap.remove());
+
+    heap = new IntMaxHeap(3);
     heap.add(5);
     heap.add(4);
     heap.add(3);

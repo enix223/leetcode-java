@@ -2,51 +2,50 @@ package com.enixyu.leetcode.common;
 
 public class IntMaxHeap implements IntHeap {
 
-  private final float loadFactor;
+  private static final int DEFAULT_INCREASE_FACTOR = 2;
+  private final int increaseFactor;
   private int cap;
   private int[] elements;
   private int size;
 
   /**
-   * Create max heap with given capacity, if cap is 0, then the heap size will be not limit.
+   * Create max heap with given initial capacity
    *
-   * @param cap the max capacity of the heap
+   * @param cap the initial capacity of the heap
    */
   public IntMaxHeap(int cap) {
-    if (cap < 0) {
-      throw new IllegalArgumentException("cap should be greater than or equal 0");
-    }
-    this.loadFactor = 0.5f;
-    this.cap = cap;
-    this.size = 0;
-    this.elements = new int[cap];
+    this(null, cap, false, DEFAULT_INCREASE_FACTOR);
+  }
+
+  public IntMaxHeap(int[] elements, int cap, boolean copy) {
+    this(elements, cap, copy, DEFAULT_INCREASE_FACTOR);
   }
 
   /**
-   * Create max heap with initial elements, and max capacity.
+   * Create max heap with initial elements, and initial capacity.
    *
    * @param elements initial elements
-   * @param cap capacity of the heap, 0 means not limit
+   * @param cap initial capacity of the heap
    * @param copy copy the initial elements to internal array or not
    */
-  public IntMaxHeap(int[] elements, int cap, boolean copy) {
+  public IntMaxHeap(int[] elements, int cap, boolean copy, int increaseFactor) {
+    if (cap <= 0 || (elements != null && cap < elements.length)) {
+      throw new IllegalArgumentException("cap should be greater than 0");
+    }
     this.cap = cap;
-    this.loadFactor = 0.5f;
-    this.size = elements.length;
-    if (copy) {
+    this.size = elements == null ? 0 : elements.length;
+    this.increaseFactor = increaseFactor;
+    if (copy && elements != null) {
       this.elements = new int[cap];
       System.arraycopy(elements, 0, this.elements, 0, this.size);
     } else {
-      this.elements = elements;
+      this.elements = elements != null ? elements : new int[cap];
     }
     heapify();
   }
 
   @Override
   public void add(int val) {
-    if (isFull()) {
-      throw new ArrayIndexOutOfBoundsException("heap is full");
-    }
     if (size == cap) {
       grow();
     }
@@ -80,11 +79,6 @@ public class IntMaxHeap implements IntHeap {
   @Override
   public boolean isEmpty() {
     return size == 0;
-  }
-
-  @Override
-  public boolean isFull() {
-    return cap > 0 && size == cap;
   }
 
   /** Convert the element array to heap */
@@ -132,6 +126,9 @@ public class IntMaxHeap implements IntHeap {
   }
 
   private void grow() {
-    this.cap *= 2;
+    cap *= increaseFactor;
+    int[] newElements = new int[cap];
+    System.arraycopy(elements, 0, newElements, 0, size);
+    elements = newElements;
   }
 }
