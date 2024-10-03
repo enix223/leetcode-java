@@ -1,7 +1,6 @@
 package com.enixyu.leetcode.common;
 
-public class IntMaxHeap implements IntHeap {
-
+public class IntMinHeap implements IntHeap {
   private static final int DEFAULT_INCREASE_FACTOR = 2;
   private final int increaseFactor;
   private int cap;
@@ -9,27 +8,27 @@ public class IntMaxHeap implements IntHeap {
   private int size;
 
   /**
-   * Create max heap with given initial capacity
+   * Create min heap with given initial capacity
    *
    * @param cap the initial capacity of the heap
    */
-  public IntMaxHeap(int cap) {
+  public IntMinHeap(int cap) {
     this(null, cap, false, DEFAULT_INCREASE_FACTOR);
   }
 
-  public IntMaxHeap(int[] elements, int cap, boolean copy) {
+  public IntMinHeap(int[] elements, int cap, boolean copy) {
     this(elements, cap, copy, DEFAULT_INCREASE_FACTOR);
   }
 
   /**
-   * Create max heap with initial elements, and initial capacity.
+   * Create min heap with initial elements, and initial capacity.
    *
    * @param elements initial elements
    * @param cap initial capacity of the heap
    * @param copy copy the initial elements to internal array or not
-   * @param increaseFactor array expand factor
+   * @param increaseFactor underline array expand factor
    */
-  public IntMaxHeap(int[] elements, int cap, boolean copy, int increaseFactor) {
+  public IntMinHeap(int[] elements, int cap, boolean copy, int increaseFactor) {
     if (cap <= 0 || (elements != null && cap < elements.length)) {
       throw new IllegalArgumentException("cap should be greater than 0");
     }
@@ -93,16 +92,16 @@ public class IntMaxHeap implements IntHeap {
     while (true) {
       int l = i * 2 + 1;
       int r = l + 1;
-      int max = i;
-      if (l < bound && elements[l] > elements[max]) {
-        max = l;
+      int min = i;
+      if (l < bound && elements[l] < elements[min]) {
+        min = l;
       }
-      if (r < bound && elements[r] > elements[max]) {
-        max = r;
+      if (r < bound && elements[r] < elements[min]) {
+        min = r;
       }
-      if (max != i) {
-        swap(i, max);
-        i = max;
+      if (min != i) {
+        swap(i, min);
+        i = min;
         continue;
       }
       return;
@@ -112,7 +111,7 @@ public class IntMaxHeap implements IntHeap {
   private void up(int i) {
     while (i > 0) {
       int parent = (i - 1) / 2;
-      if (elements[i] > elements[parent]) {
+      if (elements[i] < elements[parent]) {
         swap(parent, i);
         i = parent;
         continue;

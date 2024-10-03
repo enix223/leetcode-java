@@ -15,7 +15,7 @@ public class IntMaxHeapTest {
 
   @Test
   public void removeShouldWorkCorrect() {
-    IntHeap heap = new IntMaxHeap(new int[] {5, 4, 3, 2, 1}, 10, true);
+    IntHeap heap = new IntMaxHeap(new int[] {1, 2, 3, 4, 5}, 10, true);
     assertEquals(5, heap.remove());
     assertEquals(4, heap.remove());
     assertEquals(3, heap.remove());
