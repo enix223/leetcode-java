@@ -50,6 +50,8 @@ public class IntMaxHeap implements IntHeap {
     if (size == cap) {
       grow();
     }
+    elements[size++] = val;
+    up(size - 1);
   }
 
   @Override
@@ -117,7 +119,9 @@ public class IntMaxHeap implements IntHeap {
       if (elements[parent] < elements[i]) {
         swap(parent, i);
         i = parent;
+        continue;
       }
+      return;
     }
   }
 
